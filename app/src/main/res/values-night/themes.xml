@@ -1,0 +1,21 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.BusSchedules" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">#827717</item>
+        <item name="colorPrimaryVariant">#b4a647</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">#1b5e20</item>
+        <item name="colorSecondaryVariant">#4c8c4a</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Color on surface -->
+        <item name="colorOnSurfaceVariant">#8D8D8D</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" >@android:color/transparent</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
+    </style>
+</resources>

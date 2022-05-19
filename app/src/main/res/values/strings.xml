@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">bus-schedules</string>
+    <string name="bottom_sheet_default_title">New Optymo</string>
+    <string name="route_icon_default_text">X</string>
+    <string name="trip_headsign_default_text">Direction</string>
+    <string name="time_left_default_text">%d</string>
+    <string name="arrival_time_default_text">Prévu à %1$s</string>
+</resources>
