@@ -9,6 +9,8 @@
         <item name="colorSecondary">#1b5e20</item>
         <item name="colorSecondaryVariant">#4c8c4a</item>
         <item name="colorOnSecondary">@color/white</item>
+        <!-- Surface color -->
+        <item name="colorSurface">#121212</item>
         <!-- Color on surface -->
         <item name="colorOnSurfaceVariant">#8D8D8D</item>
         <!-- Status bar color. -->

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Nex/Documents/Projets/Projets_Android/new-optymo/app/src/main/res/drawable/bottom_sheet_handle.xml" value="0.152" />
         <entry key="..\:/Users/Nex/Documents/Projets/Projets_Android/new-optymo/app/src/main/res/drawable/bus_icon_bg_blue_dark.xml" value="0.1435" />
         <entry key="..\:/Users/Nex/Documents/Projets/Projets_Android/new-optymo/app/src/main/res/drawable/bus_icon_bg_blue_light.xml" value="0.122" />
         <entry key="..\:/Users/Nex/Documents/Projets/Projets_Android/new-optymo/app/src/main/res/drawable/bus_icon_bg_dark.xml" value="0.1435" />
@@ -14,7 +15,7 @@
         <entry key="..\:/Users/Nex/Documents/Projets/Projets_Android/new-optymo/app/src/main/res/drawable/bus_icon_bg_purple.xml" value="0.1435" />
         <entry key="..\:/Users/Nex/Documents/Projets/Projets_Android/new-optymo/app/src/main/res/drawable/bus_icon_bg_red.xml" value="0.1435" />
         <entry key="..\:/Users/Nex/Documents/Projets/Projets_Android/new-optymo/app/src/main/res/drawable/ic_bus_stop.xml" value="0.103" />
-        <entry key="..\:/Users/Nex/Documents/Projets/Projets_Android/new-optymo/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/Nex/Documents/Projets/Projets_Android/new-optymo/app/src/main/res/layout/activity_main.xml" value="0.43568945538818077" />
         <entry key="..\:/Users/Nex/Documents/Projets/Projets_Android/new-optymo/app/src/main/res/layout/modal_bottom_sheet_content.xml" value="0.264" />
         <entry key="..\:/Users/Nex/Documents/Projets/Projets_Android/new-optymo/app/src/main/res/layout/schedule_row.xml" value="0.4" />
       </map>

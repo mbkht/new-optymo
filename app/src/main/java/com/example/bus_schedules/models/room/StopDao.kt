@@ -20,7 +20,7 @@ interface StopDao {
     suspend fun getAllStops(): List<Stop>
 
     @Query(
-        "SELECT DISTINCT  strftime('%H:%M', arrival_time) as arrival_time , stop_times.trip_id\n" +
+        "SELECT DISTINCT strftime('%H:%M', arrival_time) as arrival_time , stop_times.trip_id\n" +
                 "FROM stop_times \n" +
                 "INNER JOIN trips ON stop_times.trip_id = trips.trip_id \n" +
                 "INNER JOIN calendar_dates ON trips.service_id = calendar_dates.service_id\n" +
@@ -28,8 +28,8 @@ interface StopDao {
                 "AND NOT(calendar_dates.date = strftime( '%Y%m%d', 'now') AND exception_type = 2 )\n" +
                 "AND trips.service_id = (SELECT\n" +
                 "CASE strftime('%w', 'now')\n" +
-                "     WHEN 0 THEN 'UN1'\n" +
-                "     WHEN 1 THEN 'UN2'\n" +
+                "     WHEN '0' THEN 'UN1'\n" +
+                "     WHEN '1' THEN 'UN2'\n" +
                 "     ELSE 'UN3'\n" +
                 "END\n" +
                 ")\n" +

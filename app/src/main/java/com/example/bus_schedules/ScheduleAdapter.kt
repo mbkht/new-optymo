@@ -87,8 +87,7 @@ class ScheduleAdapter(var schedulesList: List<Schedule>) :
                     String.format("%d min", timeLeft)
             viewHolder.arrivalTimeText.text = String.format("Prévu à %s", schedule.arrivalTime)
         } else {
-            viewHolder.timeLeftText.textSize = 18.0F
-            viewHolder.timeLeftText.text = String.format("Prévu à %s", schedule.arrivalTime)
+            viewHolder.timeLeftText.text = String.format("%s", schedule.arrivalTime)
             viewHolder.arrivalTimeText.text = ""
         }
     }

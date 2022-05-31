@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="ModalBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
-        <item name="behavior_peekHeight">52dp</item>
+        <item name="behavior_peekHeight">48dp</item>
         <item name="behavior_fitToContents">true</item>
     </style>
 </resources>
