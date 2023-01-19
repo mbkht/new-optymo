@@ -18,13 +18,9 @@ class Repository @Inject constructor(
     suspend fun getNextTrips(stopName: String): List<Schedule> {
         return stopDao.getNextTrips(stopName).map {
             val trip = tripDao.getTripById(it.tripId)
-            val routeColor = routeDao.getRouteColorById(trip.routeId!!)
+            val routeColor = routeDao.getRouteColorById(trip.routeId)
             Schedule(it.arrivalTime, trip, routeColor)
         }
-    }
-
-    suspend fun getAllTrips(): List<Trip>{
-        return tripDao.getAllTrips()
     }
 
     suspend fun getAllStops(): List<Stop>{
@@ -35,7 +31,7 @@ class Repository @Inject constructor(
         return flow {
             routeDao.getAllRoutes().forEach { route ->
                 val color = Color.parseColor("#" + route.routeColor)
-                val shapes = routeDao.getShapesById(route.routeId)
+                val shapes = routeDao.getShapesById(route.routeId.toInt())
                 emit(Pair(color, shapes))
             }
         }

@@ -1,7 +1,6 @@
 package com.example.bus_schedules
 
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.example.bus_schedules.models.Schedule
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import kotlin.math.abs
 
 class ScheduleAdapter(var schedulesList: List<Schedule>) :
     RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
@@ -49,11 +49,11 @@ class ScheduleAdapter(var schedulesList: List<Schedule>) :
     private fun getTimeLeft(arrivalTimeString: String): Int {
         val arrivalTime = LocalTime.parse(arrivalTimeString, DateTimeFormatter.ofPattern("HH:mm"))
         val currentTime = LocalTime.now()
-        val diff = Math.abs(ChronoUnit.MINUTES.between(arrivalTime, currentTime)).toInt()
-        if (Math.abs(diff) > 30.0) {
-            return -1
+        val diff = abs(ChronoUnit.MINUTES.between(arrivalTime, currentTime)).toInt()
+        return if (abs(diff) > 30.0) {
+            -1
         } else {
-            return diff
+            diff
         }
     }
 
@@ -67,12 +67,12 @@ class ScheduleAdapter(var schedulesList: List<Schedule>) :
 
         // Route Icon
         val busIconDrawable =
-            ContextCompat.getDrawable(viewHolder.itemView.context, R.drawable.bus_icon_bg)
+            ContextCompat.getDrawable(viewHolder.itemView.context, R.drawable.ic_bus_bg)
         busIconDrawable!!.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
             Color.parseColor("#" + schedule.routeColor),
             BlendModeCompat.SRC_ATOP
         )
-        viewHolder.routeIcon.setBackground(busIconDrawable)
+        viewHolder.routeIcon.background = busIconDrawable
         viewHolder.routeIcon.background
         viewHolder.routeIcon.text = schedule.trip.routeId.toString()
 

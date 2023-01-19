@@ -2,7 +2,6 @@ package com.example.bus_schedules.models.room
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.MapInfo
 import androidx.room.Query
 import com.example.bus_schedules.models.Route
 import com.example.bus_schedules.models.Shape
@@ -24,5 +23,5 @@ interface RouteDao {
     suspend fun getShapesById(routeId: Int): List<Shape>
 
     @Query("SELECT route_color FROM routes WHERE route_id = :routeId")
-    suspend fun getRouteColorById(routeId: Int): String
+    fun getRouteColorById(routeId: Int): String
 }

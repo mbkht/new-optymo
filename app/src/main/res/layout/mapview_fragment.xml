@@ -25,10 +25,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bottom_sheet_header"
-            style="@style/Theme.BusSchedules"
+            style="@style/Theme.BusSchedulesTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?colorPrimary"
+            android:background="?colorPrimaryContainer"
             app:layout_constraintTop_toTopOf="parent">
 
             <View
@@ -50,7 +50,7 @@
                 android:layout_height="52dp"
                 android:gravity="center"
                 android:text="@string/bottom_sheet_default_title"
-                android:textColor="?colorOnPrimary"
+                android:textColor="?colorOnPrimaryContainer"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"

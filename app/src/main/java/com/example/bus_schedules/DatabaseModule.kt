@@ -32,11 +32,11 @@ class DatabaseModule {
         return appDatabase.tripDao()
     }
 
-
     @Provides
     @Singleton
     fun provideAppDatabase(@ApplicationContext appContext: Context): OptymoGtfsDatabase {
-        return Room.databaseBuilder(appContext, OptymoGtfsDatabase::class.java, "OptymoGtfsDb.db")
+        return Room.databaseBuilder(appContext, OptymoGtfsDatabase::class.java, "OptymoGtfs.db")
+            .createFromAsset("database/gtfs.db")
             .build()
     }
 }

@@ -6,10 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "trips")
 data class Trip(
-    @ColumnInfo(name = "route_id") val routeId: Int? = null,
-    @ColumnInfo(name = "service_id") val serviceId: String? = null,
-    @PrimaryKey
-    @ColumnInfo(name = "trip_id") val tripId: String,
+    @ColumnInfo(name = "route_id") val routeId: Int,
+    @ColumnInfo(name = "service_id") val serviceId: String,
+    @PrimaryKey @ColumnInfo(name = "trip_id") val tripId: String,
     @ColumnInfo(name = "trip_headsign") val tripHeadsign: String? = null,
     @ColumnInfo(name = "trip_short_name") val tripShortName: String? = null,
     @ColumnInfo(name = "direction_id") val directionId: Int? = null,

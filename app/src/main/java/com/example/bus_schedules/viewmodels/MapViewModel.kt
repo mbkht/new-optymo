@@ -1,5 +1,6 @@
 package com.example.bus_schedules.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,17 +11,17 @@ import com.example.bus_schedules.models.Stop
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class MapViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
     private val _routesList = MutableLiveData(Pair(0, emptyList<Shape>()))
+    private var hasLocationPermission = false
     val routesList: LiveData<Pair<Int, List<Shape>>> = _routesList
 
     private val _stopList: MutableLiveData<List<Stop>> by lazy {
@@ -30,7 +31,7 @@ class MainViewModel @Inject constructor(
 
     fun loadRoutesAndStops() {
         val handler = CoroutineExceptionHandler { _, exception ->
-            println(exception)
+            Log.e(this.toString(), "loadRoutesAndStops : exception : " + exception.message)
         }
 
         viewModelScope.launch(handler) {
@@ -38,6 +39,7 @@ class MainViewModel @Inject constructor(
             loadRoutesShapes().collect {
                 _routesList.value = it
             }
+            Log.d("MapViewModel", "loadRoutesAndStops : routes and stops loaded")
         }
     }
 
@@ -47,6 +49,10 @@ class MainViewModel @Inject constructor(
 
     private suspend fun loadRoutesStops(): List<Stop>{
         return repository.getAllStops()
+    }
+
+    fun changeLocationPermission(hasLocationPermission : Boolean){
+        this.hasLocationPermission = hasLocationPermission
     }
 
 }
