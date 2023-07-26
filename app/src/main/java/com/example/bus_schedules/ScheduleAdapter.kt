@@ -86,6 +86,7 @@ class ScheduleAdapter(var schedulesList: List<Schedule>) :
                 if (timeLeft == 0) "en approche" else
                     String.format("%d min", timeLeft)
             viewHolder.arrivalTimeText.text = String.format("Prévu à %s", schedule.arrivalTime)
+            viewHolder.arrivalTimeText.visibility = View.VISIBLE
         } else {
             viewHolder.timeLeftText.text = String.format("%s", schedule.arrivalTime)
             viewHolder.arrivalTimeText.text = ""

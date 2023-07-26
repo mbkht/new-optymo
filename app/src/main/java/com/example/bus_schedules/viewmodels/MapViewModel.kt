@@ -21,7 +21,6 @@ class MapViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _routesList = MutableLiveData(Pair(0, emptyList<Shape>()))
-    private var hasLocationPermission = false
     val routesList: LiveData<Pair<Int, List<Shape>>> = _routesList
 
     private val _stopList: MutableLiveData<List<Stop>> by lazy {
@@ -49,10 +48,6 @@ class MapViewModel @Inject constructor(
 
     private suspend fun loadRoutesStops(): List<Stop>{
         return repository.getAllStops()
-    }
-
-    fun changeLocationPermission(hasLocationPermission : Boolean){
-        this.hasLocationPermission = hasLocationPermission
     }
 
 }

@@ -11,17 +11,14 @@ import android.widget.Button
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import com.example.bus_schedules.viewmodels.MapViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class InitFragment : Fragment() {
 
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
-    private val mapViewModel: MapViewModel by viewModels()
 
-    private lateinit var btnContinue : Button
+    private lateinit var btnContinue: Button
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -31,16 +28,17 @@ class InitFragment : Fragment() {
             when {
                 permissions.getOrDefault(ACCESS_FINE_LOCATION, false) -> {
                     // Precise location access granted.
-                    mapViewModel.changeLocationPermission(true)
-                    val mapFragment = MapViewFragment()
-                    (activity as MainActivity).onFragmentChange(mapFragment)
+
                 }
                 permissions.getOrDefault(ACCESS_COARSE_LOCATION, false) -> {
                     // Only approximate location access granted.
-                } else -> {
-                // No location access granted.
+                }
+                else -> {
+                    // No location access granted.
+                }
             }
-            }
+            val mapFragment = MapViewFragment()
+            (activity as MainActivity).onFragmentChange(mapFragment)
         }
     }
 
@@ -58,10 +56,12 @@ class InitFragment : Fragment() {
     }
 
     private fun enableLocation() {
-        locationPermissionRequest.launch(arrayOf(
-            ACCESS_FINE_LOCATION,
-            ACCESS_COARSE_LOCATION
-        ))
+        locationPermissionRequest.launch(
+            arrayOf(
+                ACCESS_FINE_LOCATION,
+                ACCESS_COARSE_LOCATION
+            )
+        )
     }
 
 }

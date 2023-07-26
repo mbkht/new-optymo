@@ -1,7 +1,10 @@
 package com.example.bus_schedules
 
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -122,7 +125,23 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
                 scheduleAdapter.notifyDataSetChanged()
             }
         }
-        //enableLocation()
+        enableMyLocation()
+    }
+
+    private fun enableMyLocation() {
+
+        // Check if permissions are granted, if so, enable the my location layer
+        if (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                ACCESS_FINE_LOCATION
+            ) == PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                requireActivity(),
+                ACCESS_COARSE_LOCATION
+            ) == PERMISSION_GRANTED
+        ) {
+            map.isMyLocationEnabled = true
+            return
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
