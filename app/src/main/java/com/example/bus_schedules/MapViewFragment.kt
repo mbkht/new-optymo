@@ -54,6 +54,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
         mapView.getMapAsync(this)
 
         bottomSheet = BottomSheetBehavior.from(fragmentView.findViewById(R.id.standard_bottom_sheet)!!)
+        bottomSheet.isHideable = false
         recyclerView = fragmentView.findViewById(R.id.bottom_sheet_content)!!
         recyclerView.layoutManager = LinearLayoutManager(activity)
         scheduleAdapter = ScheduleAdapter(listOf())
