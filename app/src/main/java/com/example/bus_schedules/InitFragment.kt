@@ -10,58 +10,28 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
+import com.example.compose.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class InitFragment : Fragment() {
 
-    private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
-
-    private lateinit var btnContinue: Button
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        locationPermissionRequest = registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) { permissions ->
-            when {
-                permissions.getOrDefault(ACCESS_FINE_LOCATION, false) -> {
-                    // Precise location access granted.
-
-                }
-                permissions.getOrDefault(ACCESS_COARSE_LOCATION, false) -> {
-                    // Only approximate location access granted.
-                }
-                else -> {
-                    // No location access granted.
-                }
-            }
-            val mapFragment = MapViewFragment()
-            (activity as MainActivity).onFragmentChange(mapFragment)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val fragmentView = inflater.inflate(R.layout.init_fragment, container, false)
-        btnContinue = fragmentView.findViewById(R.id.fragment_init_btn_continue)
-        btnContinue.setOnClickListener {
-            enableLocation()
-        }
-        return fragmentView
-    }
-
-    private fun enableLocation() {
-        locationPermissionRequest.launch(
-            arrayOf(
-                ACCESS_FINE_LOCATION,
-                ACCESS_COARSE_LOCATION
-            )
-        )
+    ): View {
+       return ComposeView(requireContext()).apply {
+           setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+           setContent {
+               AppTheme {
+                   LocationPermissionScreen()
+               }
+           }
+       }
     }
 
 }

@@ -17,7 +17,7 @@ interface StopDao {
                 "WHERE routes.route_id IN (1, 2, 3, 4, 5, 8, 9)\n" +
                 "ORDER BY stop_name)"
     )
-    suspend fun getAllStops(): List<Stop>
+    fun getAllStops(): List<Stop>
 
     @Query(
         "SELECT DISTINCT strftime('%H:%M', arrival_time) as arrival_time, stop_times.trip_id \n" +
@@ -47,6 +47,6 @@ interface StopDao {
                 "ORDER BY arrival_time ASC\n" +
                 "LIMIT 10"
     )
-    suspend fun getNextTrips(stopName: String): List<NextTrip>
+    fun getNextTrips(stopName: String): List<NextTrip>
 
 }

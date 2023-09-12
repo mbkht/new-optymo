@@ -12,7 +12,7 @@ interface RouteDao {
     fun insertAll(vararg routes: Route)
 
     @Query("SELECT * FROM routes WHERE route_id IN (1, 2, 3, 4, 5, 8, 9)")
-    suspend fun getAllRoutes() : List<Route>
+    fun getAllRoutes() : List<Route>
 
     @Query("SELECT DISTINCT shapes.*\n" +
             "FROM trips\n" +
@@ -20,7 +20,7 @@ interface RouteDao {
             "INNER JOIN shapes ON shapes.shape_id = trips.shape_id\n" +
             "WHERE routes.route_id = :routeId\n" +
             "ORDER BY shape_id, shape_pt_sequence")
-    suspend fun getShapesById(routeId: Int): List<Shape>
+    fun getShapesById(routeId: Int): List<Shape>
 
     @Query("SELECT route_color FROM routes WHERE route_id = :routeId")
     fun getRouteColorById(routeId: Int): String
