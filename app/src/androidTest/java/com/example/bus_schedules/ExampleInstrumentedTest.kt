@@ -1,5 +1,6 @@
 package com.example.bus_schedules
 
+import com.example.bus_schedules.repository.Repository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.flow.toList

@@ -1,9 +1,10 @@
 package com.example.bus_schedules.viewmodels
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.bus_schedules.Repository
+import com.example.bus_schedules.repository.Repository
 import com.example.bus_schedules.models.Schedule
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -17,7 +18,7 @@ class BottomSheetViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
     private val _nextTrips = MutableLiveData<List<Schedule>>(listOf())
-    val nextTrips: MutableLiveData<List<Schedule>> = _nextTrips
+    val nextTrips: LiveData<List<Schedule>> = _nextTrips
 
     fun onMarkerClick(stopName: String) {
 

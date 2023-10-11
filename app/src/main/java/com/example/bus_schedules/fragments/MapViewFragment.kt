@@ -1,4 +1,4 @@
-package com.example.bus_schedules
+package com.example.bus_schedules.fragments
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -9,16 +9,22 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.bus_schedules.R
+import com.example.bus_schedules.ui.composables.ScheduleRow
 import com.example.bus_schedules.viewmodels.BottomSheetViewModel
 import com.example.bus_schedules.viewmodels.MapViewModel
 import com.google.android.gms.maps.GoogleMap
@@ -38,8 +44,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fragmentView : View
     private lateinit var mapView: MapView
     private lateinit var bottomSheet: BottomSheetBehavior<View>
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var scheduleAdapter: ScheduleAdapter
+    private lateinit var bottomSheetContent: ComposeView
 
     private lateinit var map: GoogleMap
 
@@ -55,12 +60,20 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
 
         bottomSheet = BottomSheetBehavior.from(fragmentView.findViewById(R.id.standard_bottom_sheet)!!)
         bottomSheet.isHideable = false
-        recyclerView = fragmentView.findViewById(R.id.bottom_sheet_content)!!
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        scheduleAdapter = ScheduleAdapter(listOf())
-        recyclerView.adapter = scheduleAdapter
+        bottomSheet.maxHeight = 1000
 
-        viewModel.loadRoutesAndStops()
+        // bottomSheet Content
+        bottomSheetContent = fragmentView.findViewById(R.id.bottom_sheet_content)
+        bottomSheetContent.setContent {
+            val schedules by bottomSheetViewModel.nextTrips.observeAsState(initial = listOf())
+            LazyColumn(Modifier.fillMaxSize()) {
+               items(schedules){
+                   ScheduleRow(schedule = it)
+               }
+            }
+        }
+
+        viewModel.loadAllRoutesAndStops()
 
         return fragmentView
     }
@@ -115,16 +128,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
             text.text = it.title!!
             bottomSheetViewModel.onMarkerClick(it.title!!)
             true
-        }
-        bottomSheetViewModel.nextTrips.observe(this) {
-            if (it.isNullOrEmpty()) {
-                Log.d("test", "No schedule for this stop")
-                recyclerView.visibility = View.INVISIBLE
-            } else {
-                recyclerView.visibility = View.VISIBLE
-                scheduleAdapter.schedulesList = it
-                scheduleAdapter.notifyDataSetChanged()
-            }
         }
         enableMyLocation()
     }

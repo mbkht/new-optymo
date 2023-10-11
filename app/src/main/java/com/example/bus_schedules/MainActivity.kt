@@ -3,6 +3,8 @@ package com.example.bus_schedules
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.bus_schedules.fragments.InitFragment
+import com.example.bus_schedules.fragments.MapViewFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

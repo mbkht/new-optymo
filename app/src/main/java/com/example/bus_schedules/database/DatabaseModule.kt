@@ -1,4 +1,4 @@
-package com.example.bus_schedules
+package com.example.bus_schedules.database
 
 import android.content.Context
 import androidx.room.Room
