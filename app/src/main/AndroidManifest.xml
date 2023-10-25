@@ -9,7 +9,7 @@
         android:name=".MainApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:icon="@drawable/bottom_sheet_handle"
+        android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.BusSchedulesTheme">
         <meta-data

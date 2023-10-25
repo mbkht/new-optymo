@@ -1,6 +1,7 @@
 package com.example.bus_schedules.repository
 
 import android.graphics.Color
+import android.util.Log
 import com.example.bus_schedules.models.*
 import com.example.bus_schedules.models.room.RouteDao
 import com.example.bus_schedules.models.room.StopDao
@@ -30,28 +31,45 @@ class Repository @Inject constructor(
         }
     }
 
-    fun getNextTrips(stopName: String): List<Schedule> {
-        return stopDao.getNextTrips(stopName).map {
-            val trip = tripDao.getTripById(it.tripId)
-            val routeColor = Color.parseColor("#" + routeDao.getRouteColorById(trip.routeId))
+    fun getNextTrips(stop: Stop): List<Schedule> {
+        Log.d("ScheduleRepository", "Getting next trips for stop: ${stop.stopName}, id: ${stop.rowid}")
 
-            // Time left and arrival time
-            val minLeft = getMinLeft(it.arrivalTime)
+        val nextTrips = stopDao.getNextTrips(stop.stopName!!)
 
-            Schedule(trip.routeId, routeColor, trip.tripHeadsign!!, it.arrivalTime, minLeft)
+        if (nextTrips.isEmpty()) {
+            Log.w("ScheduleRepository", "No trips found for stop: ${stop.stopName}, id: ${stop.rowid}")
+            return emptyList()
         }
+
+        return nextTrips.map {
+            try {
+                val trip = tripDao.getTripById(it.tripId)
+                val routeColor = Color.parseColor("#" + routeDao.getRouteColorById(trip.routeId))
+
+                // Time left and arrival time
+                val minLeft = getMinLeft(it.arrivalTime)
+
+                Schedule(trip.routeId, routeColor, trip.tripHeadsign!!, it.arrivalTime, minLeft)
+            } catch (e: Exception) {
+                Log.e("ScheduleRepository", "Error getting next trip schedule: ${e.message}")
+                null
+            }
+        }.filterNotNull()
     }
 
     fun getAllStops(): List<Stop>{
         return stopDao.getAllStops()
     }
 
-    suspend fun getAllRoutesShapes(): Flow<Pair<Int, List<Shape>>> {
+    suspend fun getAllRoutesShapes(): Flow<Pair<Int, List<List<Shape>>>> {
         return flow {
             routeDao.getAllRoutes().forEach { route ->
                 val color = Color.parseColor("#" + route.routeColor)
                 val shapes = routeDao.getShapesById(route.routeId.toInt())
-                emit(Pair(color, shapes))
+                val shapesList = shapes.groupBy { shape ->
+                    shape.shapeId
+                }.values.toList()
+                emit(Pair(color, shapesList))
             }
         }
     }

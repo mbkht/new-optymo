@@ -28,7 +28,7 @@ interface StopDao {
                 "AND NOT(calendar_dates.date = strftime( '%Y%m%d', 'now') AND exception_type = 2 )\n" +
                 "AND trips.service_id IN (\n" +
                 "SELECT service_id FROM calendar\n" +
-                "WHERE date('now') BETWEEN start_date AND end_date \n" +
+                "WHERE strftime('%Y%m%d', 'now') BETWEEN start_date AND end_date \n" +
                 "AND (CASE strftime('%w', 'now')\n" +
                 "WHEN '0' THEN sunday\n" +
                 "WHEN '1' THEN monday\n" +

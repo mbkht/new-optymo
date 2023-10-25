@@ -57,7 +57,7 @@ fun ScheduleRow(schedule: Schedule) {
                 Text(
                     text = destination,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
-                    fontSize = 20.sp,
+                    fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(start = 10.dp)
                 )
@@ -93,7 +93,7 @@ fun ScheduleRow(schedule: Schedule) {
 }
 
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, showSystemUi = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true, showSystemUi = true,
 )
 @Composable
 fun ScheduleRowPreview() {

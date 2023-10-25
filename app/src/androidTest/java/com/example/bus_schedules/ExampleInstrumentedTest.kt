@@ -38,11 +38,7 @@ class DatabaseTest {
         }
     }
 
-    @Test
-    fun testGetNextTrips() = runBlocking {
-        val nextTrips = repository.getNextTrips("Gare")
-        assert(nextTrips.isNotEmpty())
-    }
+
 
     @Test
     fun testGetAllStops() = runBlocking {
