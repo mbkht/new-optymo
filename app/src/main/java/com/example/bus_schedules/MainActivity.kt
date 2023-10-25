@@ -1,160 +1,104 @@
 package com.example.bus_schedules
 
-import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.graphics.Bitmap
-import android.graphics.Canvas
+import android.Manifest
+import android.app.Activity
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.bus_schedules.viewmodels.BottomSheetViewModel
-import com.example.bus_schedules.viewmodels.MainViewModel
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.*
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import androidx.navigation.compose.rememberNavController
+import com.example.bus_schedules.ui.screens.LocationPermissionScreen
+import com.example.bus_schedules.ui.screens.MapViewScreen
+import com.example.bus_schedules.viewmodels.MapViewModel
+import com.example.compose.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), OnMapReadyCallback {
+class MainActivity : ComponentActivity() {
 
-    private val viewModel: MainViewModel by viewModels()
-    private val bottomSheetViewModel: BottomSheetViewModel by viewModels()
-
-    private lateinit var mapView: MapView
-    private lateinit var bottomSheet: BottomSheetBehavior<View>
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var scheduleAdapter: ScheduleAdapter
+    private val mapViewModel: MapViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val mapViewBundle = savedInstanceState?.getBundle(MAPVIEW_BUNDLE_KEY)
-
-        mapView = findViewById(R.id.map)
-        mapView.onCreate(mapViewBundle)
-        mapView.getMapAsync(this)
-
-        bottomSheet = BottomSheetBehavior.from(findViewById(R.id.standard_bottom_sheet))
-        recyclerView = findViewById(R.id.bottom_sheet_content)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        scheduleAdapter = ScheduleAdapter(listOf())
-        recyclerView.adapter = scheduleAdapter
-
-
-        viewModel.loadRoutesAndStops()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        val mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY) ?: Bundle().also {
-            outState.putBundle(MAPVIEW_BUNDLE_KEY, it)
-        }
-        mapView.onSaveInstanceState(mapViewBundle)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        mapView.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mapView.onStop()
-    }
-
-    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
-        return ContextCompat.getDrawable(context, vectorResId)?.run {
-            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
-            val bitmap =
-                Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
-            draw(Canvas(bitmap))
-            BitmapDescriptorFactory.fromBitmap(bitmap)
-        }
-    }
-
-    override fun onMapReady(map: GoogleMap) {
-        // Bus stop icon
-        val bitmapdescriptor =
-            bitmapDescriptorFromVector(applicationContext, R.drawable.ic_bus_stop)
-        // If night mod, apply the night map style
-        if(resources.configuration.uiMode and
-            Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES){
-            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(applicationContext, R.raw.style_json))
-        }
-        map.isIndoorEnabled = false
-        map.uiSettings.isTiltGesturesEnabled = false
-        map.isBuildingsEnabled = false
-        viewModel.routesList.observe(this) { route ->
-            val routeColor = route.first
-            val shapesList = route.second.groupBy { shape ->
-                shape.shapeId
-            }.values
-            shapesList.forEach { shapeSubList ->
-                val polylineOptions = PolylineOptions()
-                polylineOptions.color(routeColor)
-                polylineOptions.addAll(shapeSubList.map { shape ->
-                    LatLng(shape.shapePtLat!!, shape.shapePtLon!!)
-                })
-                map.addPolyline(polylineOptions)
+        val startDestination = checkAppStart(this)
+        setContent {
+            AppTheme {
+                Surface(color = MaterialTheme.colorScheme.background) {
+                    Navigation(startDestination)
+                }
             }
         }
-        viewModel.stopList.observe(this) {
-            it.forEach { stop ->
-                map.addMarker(
-                    MarkerOptions()
-                        .title(stop.stopName)
-                        .icon(bitmapdescriptor)
-                        .position(LatLng(stop.stopLat!!, stop.stopLon!!))
+    }
+
+
+    @Composable
+    private fun Navigation(startDestination: String) {
+        val navController = rememberNavController()
+        NavHost(navController = navController, startDestination = startDestination) {
+            navigation("locationPermissionScreen", route = "init") {
+                composable("locationPermissionScreen") {
+                    LocationPermissionScreenNav(navController = navController)
+                }
+            }
+            composable("mapViewScreen") {
+                MapViewScreenNav()
+            }
+        }
+    }
+
+    @Composable
+    private fun LocationPermissionScreenNav(navController: NavController) {
+        val launcher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestMultiplePermissions(),
+            onResult = { permissions ->
+                if (permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true) {
+                    navController.navigate("mapViewScreen")
+                }
+            }
+        )
+        LocationPermissionScreen(
+            onContinueClick = {
+                launcher.launch(
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    )
                 )
             }
+        )
+    }
+
+    @Composable
+    private fun MapViewScreenNav() {
+        val mapViewState = mapViewModel.state.collectAsState().value
+        MapViewScreen(
+            mapViewState = mapViewState,
+            onEvent = mapViewModel::onEvent
+        )
+    }
+
+    private fun checkAppStart(activity: Activity): String {
+        return when (activity.checkAppStart()) {
+            AppStart.NORMAL -> "mapViewScreen"
+            AppStart.FIRST_TIME_VERSION, AppStart.FIRST_TIME -> "init"
         }
-        map.setOnMarkerClickListener {
-            val text = this.findViewById(R.id.bottom_sheet_title) as TextView
-            text.text = it.title!!
-            bottomSheetViewModel.onMarkerClick(it.title!!)
-            true
-        }
-        bottomSheetViewModel.nextTrips.observe(this) {
-            if (it.isNullOrEmpty()) {
-                recyclerView.visibility = View.INVISIBLE
-            } else {
-                recyclerView.visibility = View.VISIBLE
-                scheduleAdapter.schedulesList = it
-                recyclerView.adapter = scheduleAdapter
-            }
-        }
     }
 
-    override fun onPause() {
-        mapView.onPause()
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        mapView.onDestroy()
-        super.onDestroy()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView.onLowMemory()
-    }
-
-    companion object {
-        private const val MAPVIEW_BUNDLE_KEY = "MapViewBundleKey"
-    }
 }

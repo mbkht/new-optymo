@@ -6,13 +6,12 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "routes")
 data class Route(
-    @PrimaryKey
-    @ColumnInfo(name = "route_id") val routeId: Int,
+    @PrimaryKey @ColumnInfo(name = "route_id") val routeId: String,
     @ColumnInfo(name = "agency_id") val agencyId: String? = null,
     @ColumnInfo(name = "route_short_name") val routeShortName: String? = null,
     @ColumnInfo(name = "route_long_name") val routeLongName: String? = null,
     @ColumnInfo(name = "route_desc") val routeDesc: String? = null,
-    @ColumnInfo(name = "route_type") val routeType: Int? = null,
+    @ColumnInfo(name = "route_type") val routeType: Int,
     @ColumnInfo(name = "route_url") val routeUrl: String? = null,
     @ColumnInfo(name = "route_color") val routeColor: String? = null,
     @ColumnInfo(name = "route_text_color") val routeTextColor: String? = null,

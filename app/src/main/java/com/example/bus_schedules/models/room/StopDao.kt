@@ -17,30 +17,36 @@ interface StopDao {
                 "WHERE routes.route_id IN (1, 2, 3, 4, 5, 8, 9)\n" +
                 "ORDER BY stop_name)"
     )
-    suspend fun getAllStops(): List<Stop>
+    fun getAllStops(): List<Stop>
 
     @Query(
-        "SELECT DISTINCT  strftime('%H:%M', arrival_time) as arrival_time , stop_times.trip_id\n" +
+        "SELECT DISTINCT strftime('%H:%M', arrival_time) as arrival_time, stop_times.trip_id \n" +
                 "FROM stop_times \n" +
                 "INNER JOIN trips ON stop_times.trip_id = trips.trip_id \n" +
                 "INNER JOIN calendar_dates ON trips.service_id = calendar_dates.service_id\n" +
                 "WHERE TIME('now', 'localtime') <= arrival_time \n" +
                 "AND NOT(calendar_dates.date = strftime( '%Y%m%d', 'now') AND exception_type = 2 )\n" +
-                "AND trips.service_id = (SELECT\n" +
-                "CASE strftime('%w', 'now')\n" +
-                "     WHEN 0 THEN 'UN1'\n" +
-                "     WHEN 1 THEN 'UN2'\n" +
-                "     ELSE 'UN3'\n" +
-                "END\n" +
+                "AND trips.service_id IN (\n" +
+                "SELECT service_id FROM calendar\n" +
+                "WHERE strftime('%Y%m%d', 'now') BETWEEN start_date AND end_date \n" +
+                "AND (CASE strftime('%w', 'now')\n" +
+                "WHEN '0' THEN sunday\n" +
+                "WHEN '1' THEN monday\n" +
+                "WHEN '2' THEN tuesday\n" +
+                "WHEN '3' THEN wednesday\n" +
+                "WHEN '4' THEN thursday\n" +
+                "WHEN '5' THEN friday\n" +
+                "WHEN '6' THEN saturday\n" +
+                "END) = 1\n" +
                 ")\n" +
                 "AND rowid IN (\n" +
                 "SELECT DISTINCT rowid FROM stops\n" +
                 "WHERE stop_name Like :stopName\n" +
                 "AND parent_station IS NOT NULL\n" +
-                ")\n" +
-                "ORDER BY arrival_time\n" +
-                "LIMIT 10\n"
+                ")\n"+
+                "ORDER BY arrival_time ASC\n" +
+                "LIMIT 10"
     )
-    suspend fun getNextTrips(stopName: String): List<NextTrip>
+    fun getNextTrips(stopName: String): List<NextTrip>
 
 }

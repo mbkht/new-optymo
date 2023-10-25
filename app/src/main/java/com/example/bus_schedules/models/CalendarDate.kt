@@ -7,5 +7,5 @@ import androidx.room.Entity
 data class CalendarDate(
     @ColumnInfo(name = "service_id") val serviceId: String,
     @ColumnInfo(name = "date") val date: String,
-    @ColumnInfo(name = "exception_type") val exceptionType: Int? = null
+    @ColumnInfo(name = "exception_type") val exceptionType: Int
 )

@@ -7,6 +7,6 @@ import androidx.room.Entity
 data class Transfer(
     @ColumnInfo(name = "from_stop_id") val fromStopId: Int,
     @ColumnInfo(name = "to_stop_id") val toStopId: Int,
-    @ColumnInfo(name = "transfer_type") val transferType: Int? = null,
+    @ColumnInfo(name = "transfer_type") val transferType: Int,
     @ColumnInfo(name = "min_transfer_time") val minTransferTime: Int? = null
 )

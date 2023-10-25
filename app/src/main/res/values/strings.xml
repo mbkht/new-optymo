@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">bus-schedules</string>
-    <string name="bottom_sheet_default_title">New Optymo</string>
-    <string name="route_icon_default_text">X</string>
-    <string name="trip_headsign_default_text">Direction</string>
-    <string name="time_left_default_text">%d</string>
-    <string name="arrival_time_default_text">Prévu à %1$s</string>
+    <string name="bottom_sheet_title">New Optymo</string>
+    <string name="route_icon_text">X</string>
+    <string name="destination_text">Direction</string>
+    <string name="arrival_time_text">Prévu · %1$s</string>
+    <string name="prompt_continue">Continuer</string>
+    <string name="location_permission_description">Cette application utilise votre localisation pour indiquer votre position sur la carte et vous indiquer les arrêts proches</string>
+    <string name="location_permission_title">Autorisez la localisation</string>
+    <string name="location_permission_icon_description">Marqueur de carte</string>
+    <string name="min_left_approaching">En approche</string>
+    <string name="min_left_text">%1$d min</string>
 </resources>
