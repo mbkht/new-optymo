@@ -3,8 +3,8 @@
 ## Overview
 New optymo is an android application that aims to provide bus schedules for the city of belfort.
 
-![Location permission](images/location_permission.png)
-![Location permission](images/schedules.png)
+<img src="images/location_permission.png" alt="drawing" width="200"/>
+<img src="images/schedules.png" alt="drawing" width="200"/>
 
 ## Disclaimer
 This application is currently a work in progress. Some features may not be fully functional or implementend yet.
