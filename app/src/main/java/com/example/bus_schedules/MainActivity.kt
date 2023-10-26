@@ -2,7 +2,6 @@ package com.example.bus_schedules
 
 import android.Manifest
 import android.app.Activity
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -13,22 +12,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.example.bus_schedules.ui.screens.LocationPermissionScreen
-import com.example.bus_schedules.ui.screens.MapViewScreen
-import com.example.bus_schedules.viewmodels.MapViewModel
+import com.example.bus_schedules.ui.screens.locationpermission.LocationPermissionScreen
+import com.example.bus_schedules.ui.screens.mapview.MapViewScreen
+import com.example.bus_schedules.ui.screens.mapview.MapViewModel
 import com.example.compose.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-
-private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
