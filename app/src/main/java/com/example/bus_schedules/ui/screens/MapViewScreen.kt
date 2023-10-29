@@ -22,7 +22,7 @@ import com.example.bus_schedules.ui.state.BottomSheetState
 import com.example.bus_schedules.ui.components.HomeBottomSheet
 import com.example.bus_schedules.ui.components.MapView
 import com.example.bus_schedules.ui.components.ScheduleBottomSheet
-import com.example.compose.AppTheme
+import com.example.bus_schedules.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

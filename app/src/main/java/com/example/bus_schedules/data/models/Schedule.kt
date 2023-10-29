@@ -1,7 +1,5 @@
 package com.example.bus_schedules.data.models
 
-import android.graphics.Color
-
 
 data class Schedule(
     val routeNumber: Number,

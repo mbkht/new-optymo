@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bus_schedules.ui.state.MapViewState
 import com.example.bus_schedules.ui.state.BottomSheetState
-import com.example.compose.AppTheme
+import com.example.bus_schedules.ui.theme.AppTheme
 
 @Composable
 fun ScheduleBottomSheet(mapViewState: MapViewState) {

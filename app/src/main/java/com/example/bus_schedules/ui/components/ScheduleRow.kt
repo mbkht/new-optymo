@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.bus_schedules.R
 import com.example.bus_schedules.data.models.Schedule
-import com.example.compose.AppTheme
+import com.example.bus_schedules.ui.theme.AppTheme
 
 @Composable
 fun ScheduleRow(schedule: Schedule) {
