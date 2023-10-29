@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconLocation">
+        <ignore path="/Users/mboukhtam/StudioProjects/new-optymo/app/src/main/res/drawable/ic_bus_stop.png" />
+    </issue>
+</lint>

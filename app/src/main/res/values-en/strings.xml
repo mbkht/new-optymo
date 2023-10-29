@@ -2,13 +2,10 @@
 <resources>
     <string name="app_name">bus-schedules</string>
     <string name="bottom_sheet_title">New Optymo</string>
-    <string name="route_icon_text">X</string>
-    <string name="destination_text">Destination</string>
     <string name="min_left_text">%1$d min</string>
     <string name="arrival_time_text">Scheduled  · %1$s</string>
     <string name="prompt_continue">Continue</string>
     <string name="location_permission_description">This application uses your location to show your position on the map and provide information about nearby stops.</string>
     <string name="location_permission_title">Grant location permission</string>
-    <string name="location_permission_icon_description">Map marker</string>
     <string name="min_left_approaching">Approaching</string>
 </resources>
