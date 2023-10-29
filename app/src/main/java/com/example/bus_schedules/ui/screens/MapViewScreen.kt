@@ -15,13 +15,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.bus_schedules.ui.BottomSheetDestination
-import com.example.bus_schedules.ui.MapViewState
-import com.example.bus_schedules.ui.MapViewUiEvent
-import com.example.bus_schedules.ui.composables.BottomSheetState
-import com.example.bus_schedules.ui.composables.HomeBottomSheet
-import com.example.bus_schedules.ui.composables.MapView
-import com.example.bus_schedules.ui.composables.ScheduleBottomSheet
+import com.example.bus_schedules.ui.navigation.BottomSheetDestination
+import com.example.bus_schedules.ui.state.MapViewState
+import com.example.bus_schedules.ui.events.MapViewUiEvent
+import com.example.bus_schedules.ui.state.BottomSheetState
+import com.example.bus_schedules.ui.components.HomeBottomSheet
+import com.example.bus_schedules.ui.components.MapView
+import com.example.bus_schedules.ui.components.ScheduleBottomSheet
 import com.example.compose.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
