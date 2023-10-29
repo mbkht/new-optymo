@@ -11,18 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.bus_schedules.ui.navigation.BottomSheetDestination
-import com.example.bus_schedules.ui.state.MapViewState
-import com.example.bus_schedules.ui.events.MapViewUiEvent
-import com.example.bus_schedules.ui.state.BottomSheetState
 import com.example.bus_schedules.ui.components.HomeBottomSheet
 import com.example.bus_schedules.ui.components.MapView
 import com.example.bus_schedules.ui.components.ScheduleBottomSheet
-import com.example.bus_schedules.ui.theme.AppTheme
+import com.example.bus_schedules.ui.events.MapViewUiEvent
+import com.example.bus_schedules.ui.navigation.BottomSheetDestination
+import com.example.bus_schedules.ui.state.MapViewState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,20 +60,5 @@ fun SheetContent(mapViewState: MapViewState) {
                 ScheduleBottomSheet(mapViewState = mapViewState)
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun TestUIPreview() {
-    AppTheme() {
-        MapViewScreen(mapViewState = MapViewState(
-            stopsList = emptyList(),
-            routesList = emptyList(),
-            selectedStop = null,
-            schedules = emptyList(),
-            bottomSheetState = BottomSheetState.initial()
-        ),
-            onEvent = {})
     }
 }
