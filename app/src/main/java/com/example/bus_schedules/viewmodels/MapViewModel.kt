@@ -3,15 +3,15 @@ package com.example.bus_schedules.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bus_schedules.models.Stop
-import com.example.bus_schedules.repository.Repository
-import com.example.bus_schedules.ui.MapViewState
-import com.example.bus_schedules.ui.MapViewUiEvent
-import com.example.bus_schedules.ui.Reducer
-import com.example.bus_schedules.ui.TimeCapsule
-import com.example.bus_schedules.ui.composables.BottomSheetState
-import com.example.bus_schedules.ui.composables.SheetState
-import com.example.bus_schedules.ui.composables.Sheets
+import com.example.bus_schedules.data.models.Stop
+import com.example.bus_schedules.data.repository.Repository
+import com.example.bus_schedules.ui.state.MapViewState
+import com.example.bus_schedules.ui.events.MapViewUiEvent
+import com.example.bus_schedules.ui.utils.Reducer
+import com.example.bus_schedules.ui.utils.TimeCapsule
+import com.example.bus_schedules.ui.state.BottomSheetState
+import com.example.bus_schedules.ui.state.SheetState
+import com.example.bus_schedules.ui.state.Sheets
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
@@ -70,7 +70,8 @@ class MapViewModel @Inject constructor(
     private fun getSchedules(stop: Stop) {
         viewModelScope.launch {
             val schedules = withContext(Dispatchers.IO) {repository.getNextTrips(stop).toList()}
-            reducer.sendEvent(MapViewUiEvent.SchedulesLoaded(
+            reducer.sendEvent(
+                MapViewUiEvent.SchedulesLoaded(
                 selectedStop = stop,
                 schedules = schedules
             ))
